@@ -1,0 +1,53 @@
+﻿@model MODEl.LongUrlToShorturl
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>生成短链接</title>
+    <link rel="icon" href="@Url.Content("~/Content/Images/1.ico")" t type="image/x-icon" />
+    <script src="~/Scripts/jquery-1.7.1.min.js"></script>
+    @Scripts.Render("~/bundles/urljs")
+    @Styles.Render("~/bundles/urlcss")
+</head>
+<body>
+    <div style="text-align: center; margin: auto; font-size: 20px; width: 500px; margin-top: 5%;">
+        <img src="~/Content/Images/duanWangZhi/luoXiaoHei.gif" />
+    </div>
+    <div id="DaoHangDiv" class="DaoHangDiv">
+        <ul>
+            <li>
+                <a herf=""><span id="SuoDuanWangZhispan">缩短网址</span></a>
+            </li>
+            <li>
+                <a herf=""><span id="HuanYuanWangZhispan">网址还原</span></a>
+            </li>
+        </ul>
+    </div>
+    <div id="SuoDuanDiv" class="showDiv">
+        <br />
+        <label>请输入网址:</label><br />
+        <br />
+        <input type="text" id="longurltext" class="urltext" /><br />
+        <br />
+        <input id="SuoDuanButton" type="button" class="buttonclick" value="缩短网址" /><br />
+    </div>
+    <div id="HuanYuanDiv" class="showDiv">
+        <br />
+        <label>请输入短网址:</label><br />
+        <br />
+        <input type="text" id="shorturltext" class="urltext" /><br />
+        <br />
+        <input id="HuYuangButton" type="button" class="buttonclick" value="还原网址" /><br />
+    </div>
+    <div id="returnShowDiv" class="showDiv">
+        <p id="showShortLinkp" class="showspan">短网址：</p>
+        <p id="showLongLinkp" class="showspan">原网址：</p>
+    </div>
+</body>
+</html>

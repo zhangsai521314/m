@@ -1,0 +1,39 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+    <script src="~/Scripts/jquery-1.8.2.min.js"></script>
+    <script type="text/javascript">
+        jQuery.support.cors = true;
+        //之前没有加这句老是提示no transport，我没去深想。
+        $.ajax
+        ({
+
+            type: "get",
+            contentType: "application/x-www-form-urlencoded",
+            dataType: "html",
+            url: "http://www.166zw.com/152/152786/14134642.shtml",  //这里是网址
+            async: false,
+            success: function (data)
+            {
+                alert(data);
+            },
+            timeout: 30000,
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                alert(errorThrown);
+            }
+        });
+
+    </script>
+</head>
+<body>
+    <div>
+    </div>
+</body>
+</html>

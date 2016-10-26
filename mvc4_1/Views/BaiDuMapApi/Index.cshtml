@@ -1,0 +1,385 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    @*<meta name="viewport" content="width=device-width" />*@
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" href="http://api.map.baidu.com/library/SearchInfoWindow/1.5/src/SearchInfoWindow_min.css" />
+    <script src="~/Scripts/jquery-1.8.2.min.js"></script>
+    <title>vs2012 Index</title>
+    <style type="text/css">
+        html
+        {
+            height: 100%;
+        }
+
+        body
+        {
+            height: 100%;
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #map
+        {
+            width: 945px;
+            height: 400px;
+        }
+
+        #map-container
+        {
+            padding: 6px;
+            border-width: 1px;
+            border-style: solid;
+            border-color: #ccc #ccc #999 #ccc;
+            -webkit-box-shadow: rgba(64, 64, 64, 0.5) 0 2px 5px;
+            -moz-box-shadow: rgba(64, 64, 64, 0.5) 0 2px 5px;
+            box-shadow: rgba(64, 64, 64, 0.1) 0 2px 5px;
+            width: 945px;
+            height: 500px;
+            margin-left: 25%;
+        }
+
+        .blocksearch
+        {
+            position: absolute; /*width: 222px;*/ /*background: #e7e7e7;*/
+            z-index: 100;
+            padding-top: 20px;
+            padding-bottom: 20px;
+            top: 55px;
+            left: 30%;
+        }
+
+        #r-result
+        {
+            height: 50%;
+            width: 50%;
+            margin: 80px auto;
+            padding-top: 0px;
+        }
+
+        body, html
+        {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            font-family: "微软雅黑";
+        }
+
+        #allmap
+        {
+            height: 500px;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        #result
+        {
+            width: 100%;
+            font-size: 12px;
+        }
+
+        dl, dt, dd, ul, li
+        {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        dt
+        {
+            font-size: 14px;
+            font-family: "微软雅黑";
+            font-weight: bold;
+            border-bottom: 1px dotted #000;
+            padding: 5px 0 5px 5px;
+            margin: 5px 0;
+        }
+
+        dd
+        {
+            padding: 5px 0 0 5px;
+        }
+
+        li
+        {
+            line-height: 28px;
+        }
+    </style>
+</head>
+<body>
+    <div id="mapUp" style="margin-top: 50px">
+        <div>
+            <div class="blocksearch">
+                <input type="text" id="selectcontext" placeholder="回车查询" />
+                <input type="button" value="开启测距" id="dis" onclick="OpRanging(this)" />
+                <!--<input type="button" value="删除点" id="del" />-->
+            </div>
+        </div>
+        <div id="map-container">
+            <div id="map" style="overflow: hidden; position: relative; z-index: 0; background-color: rgb(243, 241, 236); color: rgb(0, 0, 0); text-align: left; height: 500px">
+            </div>
+        </div>
+    </div>
+    <div id="r-result" style="margin-top: 0px; margin-left: 25%; width: 959px;">
+    </div>
+    <!--基本js-->
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=Gcg12tDHdnKHrelf3DSp7OlSsdgfapvT"></script>
+    <!--点聚合js-->
+    <script type="text/javascript" src="http://api.map.baidu.com/library/TextIconOverlay/1.2/src/TextIconOverlay_min.js"></script>
+    <script type="text/javascript" src="http://api.map.baidu.com/library/MarkerClusterer/1.2/src/MarkerClusterer_min.js"></script>
+    <!--测距js-->
+    <script type="text/javascript" src="http://api.map.baidu.com/library/DistanceTool/1.2/src/DistanceTool_min.js"></script>
+    <!--信息窗搜索-->
+    <script type="text/javascript" src="http://api.map.baidu.com/library/SearchInfoWindow/1.5/src/SearchInfoWindow_min.js"></script>
+    <script type="text/javascript">
+        //markers点的集合， zoom_Number 地图的缩放程度
+        var markers = [], zoom_Number = 11, myDis, map;
+        $(function () {
+            map = new BMap.Map("map");
+            map.centerAndZoom("北京市", zoom_Number); //根据地名绑定初始化中心和地图级别(地图的放大程度)。根据经纬度绑定初始化中心：map.centerAndZoom(new BMap.Point(116.404, 39.915), 11);
+            map.enableScrollWheelZoom();
+            map.enableInertialDragging();
+            map.enableContinuousZoom();
+            myDis = new BMapLib.DistanceTool(map); //创建测距实例
+            //            //根据其实坐标标记路线start
+            //            var p1 = new BMap.Point(116.301934, 39.977552);
+            //            var p2 = new BMap.Point(116.508328, 39.919141);
+            //            var driving = new BMap.DrivingRoute(map, { renderOptions: { map: map, autoViewport: true} });
+            //            driving.search(p1, p2);
+            //            //根据其实坐标标记路线end
+            map.addControl(new BMap.MapTypeControl()); //添加地图类型控件，此句话可以控制地图中的显示方式（卫星，三维）
+            //默认加载城市
+            $.post("../ashx/GetBaseCommon.ashx", { view: "map", city: "北京市" }, function (data) {
+                //data = "[{'lng':'121.42','lat':'31.22'},{'lng':'121.45','lat':'31.25'}]";
+                var $parse = eval("(" + data + ")");
+                DelCovering(map);
+                markers = []; //避免点聚合的时候加上地图之前的点数
+                $.each($parse, function (index, item) {
+                    addMarker(map, new BMap.Point(item.lng, item.lat), false, item, 200, 200, "标题");
+                });
+            })
+            // 随机向地图添加标注start
+            var mpoint = new BMap.Point(116.404, 39.915);
+            map.centerAndZoom(mpoint, zoom_Number);
+            var bounds = map.getBounds();
+            var sw = bounds.getSouthWest();
+            var ne = bounds.getNorthEast();
+            var lngSpan = Math.abs(sw.lng - ne.lng);
+            var latSpan = Math.abs(ne.lat - sw.lat);
+            for (var i = 0; i < 3; i++) {
+                var point = new BMap.Point(sw.lng + lngSpan * (Math.random() * 0.7), ne.lat - latSpan * (Math.random() * 0.7));
+                addMarker(map, point, true);
+            };
+            // 随机向地图添加2标注end
+
+            //城市列表控件start
+            var size = new BMap.Size(10, 20);
+            map.addControl(new BMap.CityListControl({
+                anchor: BMAP_ANCHOR_TOP_LEFT,
+                offset: size,
+                // 切换城市之间事件
+                onChangeBefore: function () {
+
+                },
+
+                // 切换城市之后事件
+                onChangeAfter: function () {
+                    map.setZoom(zoom_Number); //将地图缩放到指定的级别
+                    var p = map.getCenter()//获取当前地图的中心点的经纬度
+                    //alert("经度" + p.lng + ",维度" + p.lat);
+                    $.post("../ashx/GetBaseCommon.ashx", { view: "map", city: $("#cur_city_name").html(), lng: p.lng, lat: p.lat }, function (data) {
+                        //data = "[{'lng':'121.42','lat':'31.22'},{'lng':'121.45','lat':'31.25'}]";
+                        var $parse = eval("(" + data + ")");
+                        DelCovering(map);
+                        markers = []; //避免点聚合的时候加上地图之前的点数
+                        $.each($parse, function (index, item) {
+                            addMarker(map, new BMap.Point(item.lng, item.lat), false, item, 200, 200, "标题");
+                        });
+                    })
+                }
+            }));
+            //城市列表控件end
+            $("#del").click(function () {
+                DelCovering(map);
+            });
+            KeyDown();
+
+
+
+
+        });
+
+
+        //添加和移除地图类型和缩略图start
+        function AddOrdelete_control(isadd, map) {
+            var mapType1 = new BMap.MapTypeControl({ mapTypes: [BMAP_NORMAL_MAP, BMAP_HYBRID_MAP] });
+            var mapType2 = new BMap.MapTypeControl({ anchor: BMAP_ANCHOR_TOP_LEFT });
+            var overView = new BMap.OverviewMapControl();
+            var overViewOpen = new BMap.OverviewMapControl({ isOpen: true, anchor: BMAP_ANCHOR_BOTTOM_RIGHT });
+            if (isadd) {
+                //map.addControl(mapType1);          //2D图，卫星图
+                //map.addControl(mapType2);          //左上角，默认地图控件
+                map.setCurrentCity("北京市");        //由于有3D图，需要设置城市哦
+                map.addControl(overView);          //添加默认缩略地图控件
+                //map.addControl(overViewOpen);      //右下角，打开
+            } else {
+                map.removeControl(mapType1);   //移除2D图，卫星图
+                map.removeControl(mapType2);
+                map.removeControl(overView);
+                map.removeControl(overViewOpen);
+            }
+        }
+        //添加和移除地图类型和缩略图end
+
+        //编写自定义函数,创建标注（创建点）poin经纬度,isinfoWindow是否标注。start
+        function addMarker(map, point, issearch, item, width, height, title) {
+            var marker = new BMap.Marker(point);  // 创建点
+            markers.push(marker);
+            // map.addOverlay(marker);// 将标注添加到地图中
+            var mymarkerClusterer = new BMapLib.MarkerClusterer(map, { markers: markers }); //使用点聚合时调用此方法会自动把点加到地图上
+            //marker.setAnimation(BMAP_ANIMATION_BOUNCE); //跳动的动画和点聚合一起用有问题 (会造成重复点，且值跳动一次)
+            //marker.enableDragging();//设置点能拖拽
+            //marker.disableDragging() //关闭点的拖拽
+            var info = infomsg(item);
+            if (issearch) {
+                var searchInfoWindow = null;
+                searchInfoWindow = new BMapLib.SearchInfoWindow(map, info, {
+                    title: title,      //标题
+                    width: width,             //宽度
+                    height: height,              //高度
+                    panel: "panel",         //检索结果面板
+                    enableMessage: false, //设置信息窗发送短息
+                    enableAutoPan: true,     //自动平移
+                    searchTypes: [
+                    //				BMAPLIB_TAB_SEARCH,   //周边检索
+                    //				BMAPLIB_TAB_TO_HERE,  //到这里去
+                    //				BMAPLIB_TAB_FROM_HERE //从这里出发
+                    ]
+                });
+                marker.addEventListener("mouseover", function (e) {
+                    searchInfoWindow.open(marker);
+                });
+            } else {
+                var opts = {
+                    width: width,     // 信息窗口宽度不带px
+                    height: height,     // 信息窗口高度
+                    title: title// 信息窗口标题
+                }
+                var infoWindow = new BMap.InfoWindow(info, opts);  // 创建信息窗口对象 
+                marker.addEventListener("mouseover", function () {
+                    map.openInfoWindow(infoWindow, point); //开启信息窗口
+                });
+            }
+            //更改点图标为其他的图片start
+            //var myIcon = new BMap.Icon("http://developer.baidu.com/map/jsdemo/img/fox.gif", new BMap.Size(300, 157));
+            //var marker2 = new BMap.Marker(point, { icon: myIcon });  // 创建标注
+            //map.addOverlay(marker2);
+            //更改点为其他的图片end
+        };
+        //编写自定义函数,创建标注（创建点）poin经纬度。end
+
+        //定义标注信息start
+        function infomsg(item) {
+            var msg = '';
+            msg += '<div>';
+            msg += '  <div><ul class="itemli">';
+            msg += '     <li>地址 : ' + 1 + '</li>';
+            if (true) {
+                msg += '     <li>营业时间 : ' + 2 + '</li>';
+            }
+            if (true) {
+                msg += '     <li>销售热线 : ' + 3 + '</li>';
+            }
+            if (true) {
+                msg += '     <li>服务热线 : ' + 4 + '</li>';
+            }
+            if (true) {
+                msg += '     <li>经销商类型 : 4S店</li>';
+            }
+            msg += '     <li><a style="color:#f00" href="">预约到店</a></li>';
+            msg += '  </ul></div>';
+            msg += '<div></div>'
+            msg += '</div>';
+            return msg;
+        };
+        //定义标注信息end
+
+        //根据关键字查询在指定的map中查询start
+        function searchByStationName(map, keyword, isDuoGuanJianZiSearch) {
+            $("#dis").val("开启测距");
+            myDis.close();
+
+            var localSearch;
+            if (isDuoGuanJianZiSearch) {
+                //多关键字默认只查询当前的map区域，
+                localSearch = new BMap.LocalSearch(map, {
+                    renderOptions: { map: map, panel: "r-result" }, //panel显示结果容器ID
+                    pageCapacity: 5//每页的显示查询结果数
+                });
+                localSearch.searchInBounds(keyword.split(" "), map.getBounds()); //根据范围和检索词发起范围检索。当keyword为数组时将同时执行多关键字检索，最多支持10个关键字(多关键字["酒店", "加油站"])
+            } else {
+                //关键字支持全国查询
+                localSearch = new BMap.LocalSearch(map, {
+                    renderOptions: { map: map, panel: "r-result" },
+                    pageCapacity: 5//每页的显示查询结果数
+                    //renderOptions: { map: map, panel: "r-result" },//panel显示结果容器ID
+                });
+                localSearch.search(keyword); //根据范围和检索词发起范围检索。当keyword为数组时将同时执行多关键字检索，最多支持10个关键字（localSearch.search(keyword.split(" "), map.getBounds());）
+            }
+            //查询完成后的回调
+            localSearch.setSearchCompleteCallback(function (searchResult) {
+                if (!isDuoGuanJianZiSearch) {
+                    var poi = searchResult.getPoi(0);
+                    //                    alert(poi.point.lng + "," + poi.point.lat);
+                    map.centerAndZoom(poi.point, zoom_Number);
+                }
+            });
+        };
+        //根据关键字查询在指定的map中查询end
+
+        //开启测距
+        function OpRanging(e) {
+            if ($(e).val() == "开启测距") {
+                $(e).val("关闭测距");
+                myDis.open();  //开启鼠标测距
+            } else {
+                $(e).val("开启测距");
+                myDis.close();
+            }
+        };
+
+        //删除所有点
+        function DelCovering(map) {
+            var allOverlay = map.getOverlays();
+            for (var i = 0; i < allOverlay.length; i++) {
+                map.removeOverlay(allOverlay[i]);
+            }
+        };
+
+        //键盘按下事件
+        function KeyDown() {
+            $(document).keydown(function (event) {
+                if (event.keyCode == 27) {
+                    if ($("#dis").val() == "关闭测距") {
+                        $("#dis").val("开启测距");
+                        myDis.close();
+                    }
+                } else if (event.keyCode == 13) {
+                    var $focused = $(document.activeElement); //获取当前获取焦点的对象
+                    if ($focused.length > 0) {
+                        if ($focused.attr("id") == "selectcontext") {
+                            searchByStationName(map, $("#selectcontext").val(), false);
+                        }
+                    }
+                }
+            });
+        };
+    </script>
+</body>
+</html>

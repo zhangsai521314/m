@@ -1,0 +1,82 @@
+﻿@{
+    Layout = null;
+}
+@using MODEl;
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <script type="text/javascript" src="http://qzonestyle.gtimg.cn/qzone/openapi/qc_loader.js" data-appid="101346412" data-redirecturi="http://www.aizheaina.com/" charset="utf-8"></script>
+    <script type="text/javascript">
+        if (QC.Login.check()) {
+            QC.Login.getMe(function (openId, accessToken) {
+                QC.Login.signOut();//注销当前用户
+
+            })
+        }
+    </script>
+    <title>Index</title>
+    <style type="text/css">
+        .shi
+        {
+            background-color: #ff0000;
+        }
+    </style>
+    @*    <script type="text/javascript">
+        window.onload = function () {
+            myfunction();
+        }
+        function myfunction() {
+            alert(22)
+        }
+    </script>*@
+
+</head>
+<body>
+    <div>
+        @*@Html.ActionLink()使用四个参数的重载则指定的控制器为在编译的时候更改为此页面所在的控制器*@
+        @Html.ActionLink("退出登录", "Exeit", "AStart", null, null, null, new { id = ViewBag.UserID }, null)
+        <a href="~/AStart/Exeit?id=@ViewBag.UserID">退出</a>
+        <table>
+            <tr>
+                <th>ID
+                </th>
+                <th>Name
+                </th>
+                <th>ClassName
+                </th>
+                <th>操作
+                </th>
+            </tr>
+            @if ((ViewBag.listStudent as List<Student>) != null && (ViewBag.listStudent as List<Student>).Count > 0)
+            {
+                foreach (Student s in ViewBag.listStudent as List<Student>)
+                {
+                <tr>
+                    <td>
+                        @s.ID
+                    </td>
+                    <td>
+                        @s.StudentName
+                    </td>
+                    <td>
+                        @s.Class.ClassName
+                    </td>
+                    <td>
+                        <a href="/Student/Add">新增</a>
+                        <a href="/Student/Del/@s.ID" >删除</a>
+                        <a href="/Student/Modify/@s.ID" >修改</a>
+                    </td>
+                </tr>
+                }
+            }
+        </table>
+    </div>
+    @*@Html.ActionLink()使用四以上个参数的重载则指定的控制器为在编译的时候更改为此页面所在的控制器*@
+    @Html.ActionLink("Razor语法事例(第一种写法，报错)", "RazorAdd", "Razor语法事例", new { target = "_blank", @class = "shi" })
+
+    @Html.ActionLink("Razor语法事例(第二种写法)", "RazorAdd", "Razor语法事例")
+    <img src="Help/VCode" />
+</body>
+</html>

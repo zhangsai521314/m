@@ -1,0 +1,131 @@
+﻿@model MODEl.Student
+
+@{
+    Layout = null;
+    ViewBag.Title = "RazorAdd";
+}
+<html>
+<head>
+    <title>YanZheng</title>
+    @Scripts.Render("~/bundles/MyCheck")
+    @*@Styles.Render("~/bundles/MyCss")*@
+
+    <script type="text/javascript">
+
+        function success(org) {
+            alert(org);
+        }
+
+        function Failure(xhr) {
+            alert(xhr.readyState);
+        }
+
+    </script>
+    <style type="text/css">
+        #imageLogad {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    @*使用验证控件需引用
+    <script src="~/Scripts/jquery-1.7.1.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>*@
+    @*    <div>
+        @using (Html.BeginForm("RazorAdd", "Razor语法事例", FormMethod.Post))
+        {
+            <div>
+                @Html.LabelFor(s => s.StudentName)
+                @Html.TextBoxFor(s => s.StudentName)
+                @Html.ValidationMessageFor(s => s.StudentName)
+                <br />
+                @Html.LabelFor(a => a.Age)
+                @Html.TextBoxFor(a => a.Age)
+                @Html.ValidationMessageFor(a => a.Age)
+                <br />
+                @Html.LabelFor(g => g.Gender)
+                男：@Html.RadioButtonFor(g => g.Gender, 1)
+                女：@Html.RadioButtonFor(g => g.Gender, 2)
+                @Html.ValidationMessageFor(g => g.Gender)
+                <br />
+                @Html.LabelFor(c => c.ClassID)
+                @Html.TextBoxFor(c => c.ClassID)
+                @Html.ValidationMessageFor(c => c.ClassID)
+                <br />
+                @Html.LabelFor(l => l.LoginName)
+                @Html.TextBoxFor(l => l.LoginName)
+                @Html.ValidationMessageFor(l => l.LoginName)
+                <br />
+                @Html.LabelFor(p => p.PassWord)
+                @Html.PasswordFor(p => p.PassWord)
+                @Html.ValidationMessageFor(p => p.PassWord)
+                <br />
+                @Html.LabelFor(c => c.CheckPassWord)
+                @Html.PasswordFor(c => c.CheckPassWord)
+                @Html.ValidationMessageFor(c => c.CheckPassWord)
+
+            </div>
+            <input type="submit" value="提交" />
+        }
+    </div>*@
+
+
+
+    <div>
+
+        @* 使用Ajax.BeginForm需引用
+        <script src="~/Scripts/jquery-1.7.1.js"></script>
+        <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>*@
+
+        @using (Ajax.BeginForm("AjaxRazorAdd", "Razor语法事例", new AjaxOptions()
+    {
+
+        HttpMethod = "post",
+        OnSuccess = "success",
+        LoadingElementId = "imageLogad",
+        OnFailure = "Failure"
+
+    }))
+        {
+            <div>
+                @Html.LabelFor(s => s.StudentName)
+                @Html.TextBoxFor(s => s.StudentName)
+                @Html.ValidationMessageFor(s => s.StudentName)
+                <br />
+                @Html.LabelFor(a => a.Age)
+                @Html.TextBoxFor(a => a.Age)
+                @Html.ValidationMessageFor(a => a.Age)
+                <br />
+                @Html.LabelFor(g => g.Gender)
+                男：@Html.RadioButtonFor(g => g.Gender, 1)
+                女：@Html.RadioButtonFor(g => g.Gender, 2)
+                @Html.ValidationMessageFor(g => g.Gender)
+                <br />
+                @Html.LabelFor(c => c.ClassID)
+                @Html.TextBoxFor(c => c.ClassID)
+                @Html.ValidationMessageFor(c => c.ClassID)
+                <br />
+                @Html.LabelFor(l => l.LoginName)
+                @Html.TextBoxFor(l => l.LoginName)
+                @Html.ValidationMessageFor(l => l.LoginName)
+                <br />
+                @Html.LabelFor(p => p.PassWord)
+                @Html.PasswordFor(p => p.PassWord)
+                @Html.ValidationMessageFor(p => p.PassWord)
+                <br />
+                @Html.LabelFor(c => c.CheckPassWord)
+                @Html.PasswordFor(c => c.CheckPassWord)
+                @Html.ValidationMessageFor(c => c.CheckPassWord)
+
+            </div>
+            <input type="submit" value="提交" />
+            <div id="imageLogad">加载中</div> 
+        }
+
+    </div>
+
+
+
+</body>
+</html>

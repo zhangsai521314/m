@@ -1,0 +1,26 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+
+    @RenderSection("xiaokeng1", required: false)
+
+</head>
+<body>
+    <!--此为一个为子页面的大坑，子页面的代码除了填小坑的都会放到此位置，RenderBody()母版页只能出现一次-->
+    @RenderBody()
+
+    @Scripts.Render("~/bundles/jquery")
+
+
+    <!-- 母版页中的小坑，第一个参数是子页面填坑的时候根据这个名字指定填的是哪个坑 例子:@section 坑的名字{ 填坑内容 } required 设置子页面是否必须填这个坑。RenderSection母版页能出现多次-->
+    @RenderSection("scripts", required: false)
+
+
+
+</body>
+</html>

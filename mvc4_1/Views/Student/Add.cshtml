@@ -1,0 +1,52 @@
+﻿@model MODEl.Student
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Add</title>
+</head>
+<body>
+    <div>
+        <form action="/Student/Add" method="post">
+            <table>
+                <tr>
+                    <td>姓名：
+                    </td>
+                    <td>
+                        <input type="text" name="StudentName" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>年龄：
+                    </td>
+                    <td>
+                        <input type="text" name="Age" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>性别：
+                    </td>
+                    <td>
+                        <input type="radio" name="Gender" value="1" />男
+                        <input type="radio" name="Gender" value="2" />女
+                    </td>
+                </tr>
+                <tr>
+                    <td>班级：
+                    </td>
+                    <td>
+                        @Html.DropDownList("ClassID", ViewBag.listClass as IEnumerable<SelectListItem>)
+                    </td>
+                </tr>
+            </table>
+            <input type="submit" value="新增" />
+        </form>
+    </div>
+</body>
+</html>

@@ -1,0 +1,532 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="ZSModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityContainer Name="ZSModelStoreContainer">
+          <EntitySet Name="Class" EntityType="ZSModel.Store.Class" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="LongUrlToShorturl" EntityType="ZSModel.Store.LongUrlToShorturl" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Student" EntityType="ZSModel.Store.Student" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="SYS_BaseGeography" EntityType="ZSModel.Store.SYS_BaseGeography" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="SYS_ClassLevel" EntityType="ZSModel.Store.SYS_ClassLevel" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="SYS_UserRole" EntityType="ZSModel.Store.SYS_UserRole" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="sysdiagrams" EntityType="ZSModel.Store.sysdiagrams" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="User" EntityType="ZSModel.Store.User" store:Type="Tables" Schema="dbo" />
+          <AssociationSet Name="FK_Student_Class" Association="ZSModel.Store.FK_Student_Class">
+            <End Role="Class" EntitySet="Class" />
+            <End Role="Student" EntitySet="Student" />
+          </AssociationSet>
+          <AssociationSet Name="FK_User_SYS_BaseGeography" Association="ZSModel.Store.FK_User_SYS_BaseGeography">
+            <End Role="SYS_BaseGeography" EntitySet="SYS_BaseGeography" />
+            <End Role="User" EntitySet="User" />
+          </AssociationSet>
+          <AssociationSet Name="FK_User_SYS_BaseGeography1" Association="ZSModel.Store.FK_User_SYS_BaseGeography1">
+            <End Role="SYS_BaseGeography" EntitySet="SYS_BaseGeography" />
+            <End Role="User" EntitySet="User" />
+          </AssociationSet>
+          <AssociationSet Name="FK_User_SYS_BaseGeography2" Association="ZSModel.Store.FK_User_SYS_BaseGeography2">
+            <End Role="SYS_BaseGeography" EntitySet="SYS_BaseGeography" />
+            <End Role="User" EntitySet="User" />
+          </AssociationSet>
+          <AssociationSet Name="FK_User_UserRole1" Association="ZSModel.Store.FK_User_UserRole1">
+            <End Role="SYS_UserRole" EntitySet="SYS_UserRole" />
+            <End Role="User" EntitySet="User" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Class">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="ClassName" Type="nvarchar" MaxLength="50" />
+          <Property Name="ClassLevel" Type="int" />
+          <Property Name="ClassMaxCount" Type="int" />
+          <Property Name="ClassNewCount" Type="int" />
+          <Property Name="CreateDate" Type="datetime" />
+          <Property Name="ModifyDate" Type="datetime" />
+          <Property Name="IsValid" Type="bit" />
+        </EntityType>
+        <EntityType Name="LongUrlToShorturl">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="LongUrl" Type="nvarchar" MaxLength="1000" />
+          <Property Name="ShortUrl" Type="nvarchar" MaxLength="100" />
+          <Property Name="CreateDate" Type="datetime" />
+          <Property Name="ModifyDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Student">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="StudentName" Type="nvarchar" MaxLength="50" />
+          <Property Name="ClassID" Type="int" />
+          <Property Name="Age" Type="int" />
+          <Property Name="Gender" Type="int" />
+          <Property Name="CreateDate" Type="datetime" />
+          <Property Name="ModifyDate" Type="datetime" />
+          <Property Name="IsValid" Type="bit" />
+          <Property Name="LoginName" Type="nvarchar" MaxLength="50" />
+          <Property Name="PassWord" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="SYS_BaseGeography">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="nvarchar" MaxLength="64" />
+          <Property Name="GeographySN" Type="varchar" MaxLength="32" />
+          <Property Name="GeographyLevel" Type="int" />
+          <Property Name="ParentID" Type="int" />
+          <Property Name="ParentSN" Type="varchar" MaxLength="32" />
+          <Property Name="Createdate" Type="datetime" />
+          <Property Name="IsValid" Type="int" />
+        </EntityType>
+        <EntityType Name="SYS_ClassLevel">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="LevelName" Type="nvarchar" MaxLength="50" />
+          <Property Name="CreateDate" Type="datetime" />
+          <Property Name="ModifyDate" Type="datetime" />
+          <Property Name="IsValid" Type="bit" />
+        </EntityType>
+        <EntityType Name="SYS_UserRole">
+          <Key>
+            <PropertyRef Name="RoleID" />
+          </Key>
+          <Property Name="RoleID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="RoleName" Type="nvarchar" MaxLength="50" />
+          <Property Name="CreateDate" Type="datetime" />
+          <Property Name="IsValid" Type="bit" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" Nullable="false" MaxLength="128" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="Phone" Type="nvarchar" MaxLength="50" />
+          <Property Name="RoleID" Type="int" />
+          <Property Name="LoginName" Type="nvarchar" MaxLength="50" />
+          <Property Name="PassWord" Type="nvarchar" MaxLength="50" />
+          <Property Name="ProvinceID" Type="int" />
+          <Property Name="CityID" Type="int" />
+          <Property Name="AreaID" Type="int" />
+          <Property Name="Address" Type="nvarchar" MaxLength="240" />
+          <Property Name="CreateDate" Type="datetime" />
+          <Property Name="ModifyDate" Type="datetime" />
+          <Property Name="IsValid" Type="bit" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Student_Class">
+          <End Role="Class" Type="ZSModel.Store.Class" Multiplicity="0..1" />
+          <End Role="Student" Type="ZSModel.Store.Student" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Class">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Student">
+              <PropertyRef Name="ClassID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_User_SYS_BaseGeography">
+          <End Role="SYS_BaseGeography" Type="ZSModel.Store.SYS_BaseGeography" Multiplicity="0..1" />
+          <End Role="User" Type="ZSModel.Store.User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SYS_BaseGeography">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="ProvinceID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_User_SYS_BaseGeography1">
+          <End Role="SYS_BaseGeography" Type="ZSModel.Store.SYS_BaseGeography" Multiplicity="0..1" />
+          <End Role="User" Type="ZSModel.Store.User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SYS_BaseGeography">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="CityID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_User_SYS_BaseGeography2">
+          <End Role="SYS_BaseGeography" Type="ZSModel.Store.SYS_BaseGeography" Multiplicity="0..1" />
+          <End Role="User" Type="ZSModel.Store.User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SYS_BaseGeography">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="AreaID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_User_UserRole1">
+          <End Role="SYS_UserRole" Type="ZSModel.Store.SYS_UserRole" Multiplicity="0..1" />
+          <End Role="User" Type="ZSModel.Store.User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SYS_UserRole">
+              <PropertyRef Name="RoleID" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="RoleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ZSModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="ZSEntities" p1:LazyLoadingEnabled="true">
+          <EntitySet Name="Class" EntityType="ZSModel.Class" />
+          <EntitySet Name="LongUrlToShorturl" EntityType="ZSModel.LongUrlToShorturl" />
+          <EntitySet Name="Student" EntityType="ZSModel.Student" />
+          <EntitySet Name="SYS_BaseGeography" EntityType="ZSModel.SYS_BaseGeography" />
+          <EntitySet Name="SYS_ClassLevel" EntityType="ZSModel.SYS_ClassLevel" />
+          <EntitySet Name="SYS_UserRole" EntityType="ZSModel.SYS_UserRole" />
+          <EntitySet Name="sysdiagrams" EntityType="ZSModel.sysdiagrams" />
+          <EntitySet Name="User" EntityType="ZSModel.User" />
+          <AssociationSet Name="FK_User_SYS_BaseGeography" Association="ZSModel.FK_User_SYS_BaseGeography">
+            <End Role="SYS_BaseGeography" EntitySet="SYS_BaseGeography" />
+            <End Role="User" EntitySet="User" />
+          </AssociationSet>
+          <AssociationSet Name="FK_User_SYS_BaseGeography1" Association="ZSModel.FK_User_SYS_BaseGeography1">
+            <End Role="SYS_BaseGeography" EntitySet="SYS_BaseGeography" />
+            <End Role="User" EntitySet="User" />
+          </AssociationSet>
+          <AssociationSet Name="FK_User_SYS_BaseGeography2" Association="ZSModel.FK_User_SYS_BaseGeography2">
+            <End Role="SYS_BaseGeography" EntitySet="SYS_BaseGeography" />
+            <End Role="User" EntitySet="User" />
+          </AssociationSet>
+          <AssociationSet Name="FK_User_UserRole1" Association="ZSModel.FK_User_UserRole1">
+            <End Role="SYS_UserRole" EntitySet="SYS_UserRole" />
+            <End Role="User" EntitySet="User" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Student_Class" Association="ZSModel.FK_Student_Class">
+            <End Role="Class" EntitySet="Class" />
+            <End Role="Student" EntitySet="Student" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Class">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="ClassName" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="ClassLevel" Type="Int32" />
+          <Property Name="ClassMaxCount" Type="Int32" />
+          <Property Name="ClassNewCount" Type="Int32" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <Property Name="ModifyDate" Type="DateTime" Precision="3" />
+          <Property Name="IsValid" Type="Boolean" />
+          <NavigationProperty Name="Student" Relationship="ZSModel.FK_Student_Class" FromRole="Class" ToRole="Student" />
+        </EntityType>
+        <EntityType Name="LongUrlToShorturl">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="LongUrl" Type="String" MaxLength="1000" Unicode="true" FixedLength="false" />
+          <Property Name="ShortUrl" Type="String" MaxLength="100" Unicode="true" FixedLength="false" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <Property Name="ModifyDate" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="Student">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="StudentName" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="ClassID" Type="Int32" />
+          <Property Name="Age" Type="Int32" />
+          <Property Name="Gender" Type="Int32" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <Property Name="ModifyDate" Type="DateTime" Precision="3" />
+          <Property Name="IsValid" Type="Boolean" />
+          <Property Name="LoginName" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="PassWord" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="Class" Relationship="ZSModel.FK_Student_Class" FromRole="Student" ToRole="Class" />
+        </EntityType>
+        <EntityType Name="SYS_BaseGeography">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="64" Unicode="true" FixedLength="false" />
+          <Property Name="GeographySN" Type="String" MaxLength="32" Unicode="false" FixedLength="false" />
+          <Property Name="GeographyLevel" Type="Int32" />
+          <Property Name="ParentID" Type="Int32" />
+          <Property Name="ParentSN" Type="String" MaxLength="32" Unicode="false" FixedLength="false" />
+          <Property Name="Createdate" Type="DateTime" Precision="3" />
+          <Property Name="IsValid" Type="Int32" />
+          <NavigationProperty Name="User" Relationship="ZSModel.FK_User_SYS_BaseGeography" FromRole="SYS_BaseGeography" ToRole="User" />
+          <NavigationProperty Name="User1" Relationship="ZSModel.FK_User_SYS_BaseGeography1" FromRole="SYS_BaseGeography" ToRole="User" />
+          <NavigationProperty Name="User2" Relationship="ZSModel.FK_User_SYS_BaseGeography2" FromRole="SYS_BaseGeography" ToRole="User" />
+        </EntityType>
+        <EntityType Name="SYS_ClassLevel">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="LevelName" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <Property Name="ModifyDate" Type="DateTime" Precision="3" />
+          <Property Name="IsValid" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="SYS_UserRole">
+          <Key>
+            <PropertyRef Name="RoleID" />
+          </Key>
+          <Property Name="RoleID" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="RoleName" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <Property Name="IsValid" Type="Boolean" />
+          <NavigationProperty Name="User" Relationship="ZSModel.FK_User_UserRole1" FromRole="SYS_UserRole" ToRole="User" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" Nullable="false" MaxLength="128" Unicode="true" FixedLength="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="Phone" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="RoleID" Type="Int32" />
+          <Property Name="LoginName" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="PassWord" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="ProvinceID" Type="Int32" />
+          <Property Name="CityID" Type="Int32" />
+          <Property Name="AreaID" Type="Int32" />
+          <Property Name="Address" Type="String" MaxLength="240" Unicode="true" FixedLength="false" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <Property Name="ModifyDate" Type="DateTime" Precision="3" />
+          <Property Name="IsValid" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="SYS_BaseGeography" Relationship="ZSModel.FK_User_SYS_BaseGeography" FromRole="User" ToRole="SYS_BaseGeography" />
+          <NavigationProperty Name="SYS_BaseGeography1" Relationship="ZSModel.FK_User_SYS_BaseGeography1" FromRole="User" ToRole="SYS_BaseGeography" />
+          <NavigationProperty Name="SYS_BaseGeography2" Relationship="ZSModel.FK_User_SYS_BaseGeography2" FromRole="User" ToRole="SYS_BaseGeography" />
+          <NavigationProperty Name="SYS_UserRole" Relationship="ZSModel.FK_User_UserRole1" FromRole="User" ToRole="SYS_UserRole" />
+        </EntityType>
+        <Association Name="FK_User_SYS_BaseGeography">
+          <End Role="SYS_BaseGeography" Type="ZSModel.SYS_BaseGeography" Multiplicity="0..1" />
+          <End Role="User" Type="ZSModel.User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SYS_BaseGeography">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="ProvinceID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_User_SYS_BaseGeography1">
+          <End Role="SYS_BaseGeography" Type="ZSModel.SYS_BaseGeography" Multiplicity="0..1" />
+          <End Role="User" Type="ZSModel.User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SYS_BaseGeography">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="CityID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_User_SYS_BaseGeography2">
+          <End Role="SYS_BaseGeography" Type="ZSModel.SYS_BaseGeography" Multiplicity="0..1" />
+          <End Role="User" Type="ZSModel.User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SYS_BaseGeography">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="AreaID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_User_UserRole1">
+          <End Role="SYS_UserRole" Type="ZSModel.SYS_UserRole" Multiplicity="0..1" />
+          <End Role="User" Type="ZSModel.User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SYS_UserRole">
+              <PropertyRef Name="RoleID" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="RoleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Student_Class">
+          <End Type="ZSModel.Class" Role="Class" Multiplicity="0..1" />
+          <End Type="ZSModel.Student" Role="Student" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Class">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Student">
+              <PropertyRef Name="ClassID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ZSModelStoreContainer" CdmEntityContainer="ZSEntities">
+          <EntitySetMapping Name="Class">
+            <EntityTypeMapping TypeName="ZSModel.Class">
+              <MappingFragment StoreEntitySet="Class">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="ClassName" ColumnName="ClassName" />
+                <ScalarProperty Name="ClassLevel" ColumnName="ClassLevel" />
+                <ScalarProperty Name="ClassMaxCount" ColumnName="ClassMaxCount" />
+                <ScalarProperty Name="ClassNewCount" ColumnName="ClassNewCount" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="ModifyDate" ColumnName="ModifyDate" />
+                <ScalarProperty Name="IsValid" ColumnName="IsValid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LongUrlToShorturl">
+            <EntityTypeMapping TypeName="ZSModel.LongUrlToShorturl">
+              <MappingFragment StoreEntitySet="LongUrlToShorturl">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="LongUrl" ColumnName="LongUrl" />
+                <ScalarProperty Name="ShortUrl" ColumnName="ShortUrl" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="ModifyDate" ColumnName="ModifyDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Student">
+            <EntityTypeMapping TypeName="ZSModel.Student">
+              <MappingFragment StoreEntitySet="Student">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="StudentName" ColumnName="StudentName" />
+                <ScalarProperty Name="ClassID" ColumnName="ClassID" />
+                <ScalarProperty Name="Age" ColumnName="Age" />
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="ModifyDate" ColumnName="ModifyDate" />
+                <ScalarProperty Name="IsValid" ColumnName="IsValid" />
+                <ScalarProperty Name="LoginName" ColumnName="LoginName" />
+                <ScalarProperty Name="PassWord" ColumnName="PassWord" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SYS_BaseGeography">
+            <EntityTypeMapping TypeName="ZSModel.SYS_BaseGeography">
+              <MappingFragment StoreEntitySet="SYS_BaseGeography">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="GeographySN" ColumnName="GeographySN" />
+                <ScalarProperty Name="GeographyLevel" ColumnName="GeographyLevel" />
+                <ScalarProperty Name="ParentID" ColumnName="ParentID" />
+                <ScalarProperty Name="ParentSN" ColumnName="ParentSN" />
+                <ScalarProperty Name="Createdate" ColumnName="Createdate" />
+                <ScalarProperty Name="IsValid" ColumnName="IsValid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SYS_ClassLevel">
+            <EntityTypeMapping TypeName="ZSModel.SYS_ClassLevel">
+              <MappingFragment StoreEntitySet="SYS_ClassLevel">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="LevelName" ColumnName="LevelName" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="ModifyDate" ColumnName="ModifyDate" />
+                <ScalarProperty Name="IsValid" ColumnName="IsValid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SYS_UserRole">
+            <EntityTypeMapping TypeName="ZSModel.SYS_UserRole">
+              <MappingFragment StoreEntitySet="SYS_UserRole">
+                <ScalarProperty Name="RoleID" ColumnName="RoleID" />
+                <ScalarProperty Name="RoleName" ColumnName="RoleName" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="IsValid" ColumnName="IsValid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="ZSModel.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="User">
+            <EntityTypeMapping TypeName="ZSModel.User">
+              <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="RoleID" ColumnName="RoleID" />
+                <ScalarProperty Name="LoginName" ColumnName="LoginName" />
+                <ScalarProperty Name="PassWord" ColumnName="PassWord" />
+                <ScalarProperty Name="ProvinceID" ColumnName="ProvinceID" />
+                <ScalarProperty Name="CityID" ColumnName="CityID" />
+                <ScalarProperty Name="AreaID" ColumnName="AreaID" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="ModifyDate" ColumnName="ModifyDate" />
+                <ScalarProperty Name="IsValid" ColumnName="IsValid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="无" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

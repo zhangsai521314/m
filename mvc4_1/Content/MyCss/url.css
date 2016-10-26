@@ -1,0 +1,60 @@
+﻿body {
+    margin: 0;
+    padding: 0;
+}
+
+.DaoHangDiv {
+    border-bottom: 1px solid blue;
+    height: 40px;
+    width: 500px;
+    margin: auto;
+}
+
+ul a span {
+    border: 1px solid #E2E2E2;
+    display: block;
+    text-align: center;
+    width: 100px;
+    height: 39px;
+    line-height: 39px; /*和hight一样则文字上下居中*/
+}
+
+ul a:hover {
+    cursor: pointer;
+}
+
+ul li {
+    list-style: none;
+    float: left;
+    margin-left: 10px;
+}
+
+.buttonclick {
+    float: left;
+}
+
+    .buttonclick:hover {
+        cursor: pointer;
+    }
+
+.urltext {
+    float: left;
+    width: 500px;
+    height: 20px;
+    font-size: 20px;
+}
+
+.showDiv {
+    width: 500px;
+    margin: auto;
+    display: none;
+}
+
+.showspan {
+    overflow: hidden;
+    white-space: pre-wrap;
+    width: 500px;
+    word-break: break-all;
+    word-wrap: break-word;
+    display: none;
+}

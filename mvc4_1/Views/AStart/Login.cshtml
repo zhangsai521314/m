@@ -1,0 +1,61 @@
+﻿@using System.Web.Mvc.Html
+@model MODEl.Student
+@{
+    ViewBag.Title = "这是我的登录";
+    Layout = "~/Views/Shared/Template.cshtml";
+}
+<meta property="qc:admins" content="1555204475611205116163757" />
+<style type="text/css">
+    .divMiddle
+    {
+        height: 580px;
+        background-image: url("https://aecpm.alicdn.com/simba/img/TB1MoqUMXXXXXafXFXXSutbFXXX.jpg");
+    }
+
+    .divLoginWai
+    {
+        height: 200px;
+        width: 280px;
+        border: 1px #ff0000 solid;
+        position: absolute;
+        top: 180px;
+        left: 1460px;
+    }
+
+    input[type=text]
+    {
+        width: 200px;
+        margin: 5px;
+    }
+</style>
+<script type="text/javascript" src="http://qzonestyle.gtimg.cn/qzone/openapi/qc_loader.js" data-appid="101346412" data-redirecturi="http://www.aizheaina.com/" charset="utf-8"></script>
+<div class="divMiddle">
+    <div class="divLoginWai">
+        <div style="border: 1px #000000 solid">
+            @using (Html.BeginForm("Login", "AStart", FormMethod.Post))
+            {
+                @Html.LabelFor(l => l.LoginName)
+                @Html.TextBoxFor(l => l.LoginName, new { @class = "form-control", placeholder = "账户名" })
+                @Html.ValidationMessageFor(e => e.LoginName)
+                @Html.LabelFor(p => p.PassWord)
+                @Html.PasswordFor(p => p.PassWord, new { @class = "form-control", placeholder = "密码" })
+                @Html.ValidationMessageFor(p => p.PassWord)
+                <input type="submit" value="登录" />
+                <div>
+                    其他方式登录：
+                    <span id="qqLoginBtn"></span>
+                    <script type="text/javascript">
+                        if (QC.Login.check()) {
+                            QC.Login.getMe(function (openId, accessToken) {
+                                $.post("/Home/index", {});
+                            })
+                        }
+                        QC.Login({
+                            btnId: "qqLoginBtn"    //插入按钮的节点id
+                        });
+                    </script>
+                </div>
+            }
+        </div>
+    </div>
+</div>

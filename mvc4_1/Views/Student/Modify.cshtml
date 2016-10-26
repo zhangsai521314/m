@@ -1,0 +1,52 @@
+﻿@{
+    Layout = null;
+}
+@using MODEl;
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Modify</title>
+</head>
+<body>
+    <div>
+        <form action="/Student/Modify" method="post">
+            <input type="hidden" name="ID" value="@Model.ID" />
+            <table>
+                <tr>
+                    <td>姓名：
+                    </td>
+                    <td>
+                        <input type="text" name="StudentName"  value="@Model.StudentName" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>班级：
+
+                    </td>
+                    <td>
+                        @*第一种方法*@
+                        @* <select>
+                         @foreach (Class item in ViewBag.listClass as List<Class>)
+                        {
+                            if (item.ID == Model.ID)
+                            {
+                            <option selected value="@item.ID">@item.ClassName</option>   
+                            }
+                            else
+                            {
+                            <option value="@item.ID">@item.ClassName</option>   
+                            }
+                        }
+                   </select>*@
+                        @*第二种*@
+                        @Html.DropDownList("ClassID", ViewBag.listClass as IEnumerable<SelectListItem>)
+                    </td>
+                </tr>
+            </table>
+            <input type="submit" value="完成" />
+        </form>
+    </div>
+</body>
+</html>

@@ -1,0 +1,76 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>RazorCase</title>
+</head>
+<body>
+    <!--viewStart视图给传的值-->
+    <h2>@PageData["pagedata"]</h2>
+
+    <!--1.0在视图中写c#代码语句块-->
+    @{
+        for (int i = 0; i < 3; i++)
+        {
+        <!--使用@的时候如果前面有html代码则需空格-->
+        <span>在视图中写c#语句块 @i</span>
+        }
+        string myName = "张赛";
+        string input = "<input type='text' />";
+    }
+    @myName
+
+    <!--1.1 此种调用Rezor视图会自动转义 < > 号-->
+    @input
+
+    <!--1.2 以下几种调用Rezor视图会不会转义 < > 号-->
+    @Html.Raw(input)
+
+    @{
+        HtmlString htmlString = new HtmlString("<input type='text' />");
+    }
+    @htmlString
+
+    @{
+        <!--此种会输出到最上面-->
+        Response.Write("<input type='text' />");
+    }
+
+    @{
+        var c = MvcHtmlString.Create("<input type='text' />");
+        @c;
+        
+    }
+
+    <!--1.3在视图中声明方法，主要用于重复的写html代码，方法的返回值是固定的HelperResult类型-->
+    @helper myAction(string s)
+{
+    
+        <div>@s</div>
+    
+    }
+    @myAction("哈喽我是方法")
+
+    <!--1.4视图之前传递数据-->
+    @{ViewData["zhi"] = "传递";}
+
+    <!--1.5在视图中调用别的视图,注意所有的页面中没有返回值的方法调用都需放到@{ }中-->
+    @{Html.RenderPartial("~/Views/Razor语法事例/ViewChuanZhi.cshtml");}
+
+    <!--1.6判断是否为数字-->
+    @{
+        if ("111".IsInt())
+        {
+            string v = "is int";
+        @v;
+        }
+    }
+    
+     @{Html.RenderPartial("~/Views/Razor语法事例/QiTaYe.cshtml");}
+</body>
+</html>
