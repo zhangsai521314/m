@@ -19,8 +19,8 @@ namespace DaiCe.Tests
         }
 
         [TestMethod]
-        public void AddTestAreNoEqual()
-        {
+        public void AddTestAreNoEqual()                     
+        {                                                               
             int sum = DaiCe.add(1, 2);
             Assert.AreNotEqual(sum, 1);//验证值是否和给定的值不相等，不相等则通过
         }
